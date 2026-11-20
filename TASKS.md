@@ -6,7 +6,7 @@
 
 ### Project Setup
 - [x] Initialize Node.js/Express project with TypeScript; configure `tsconfig.json`, `eslint`, and `prettier`
-- [ ] Add dependencies: `express`, `prisma`, `@prisma/client`, `bcrypt`, `jsonwebtoken`, `zod`, `dotenv`, `cors`
+- [x] Add dependencies: `express`, `prisma`, `@prisma/client`, `bcrypt`, `jsonwebtoken`, `zod`, `dotenv`, `cors`
 - [ ] Set up PostgreSQL database (local dev) and add `DATABASE_URL` to `.env`
 - [ ] Initialize Prisma: run `prisma init`, write the full schema (`User`, `Symptom`, `SymptomLog`, `MoodLog`, `Medication`, `MedicationLog`, `Habit`, `HabitLog`), and run the initial migration
 - [ ] Add database indexes on `(user_id, logged_at)` for all log tables in the Prisma schema
