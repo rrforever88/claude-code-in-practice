@@ -13,7 +13,7 @@
 - [x] Write a seed script that inserts the 11 default symptoms and 5 default habits (with `user_id = null`)
 
 ### Auth Endpoints
-- [ ] Implement `POST /api/auth/register` — validate input, hash password with bcrypt, create `User`, return access + refresh JWT pair
+- [x] Implement `POST /api/auth/register` — validate input, hash password with bcrypt, create `User`, return access + refresh JWT pair
 - [ ] Implement `POST /api/auth/login` — verify credentials, issue JWT access token (15 min) and refresh token (7 days) stored in an httpOnly cookie or returned in body
 - [ ] Implement `POST /api/auth/refresh` — validate refresh token, issue new access token
 - [ ] Implement `POST /api/auth/logout` — invalidate refresh token
