@@ -11,3 +11,9 @@ export function generateRefreshToken(userId: string): string {
   if (!secret) throw new Error('REFRESH_TOKEN_SECRET is not set');
   return jwt.sign({ userId }, secret, { expiresIn: '7d' });
 }
+
+export function verifyRefreshToken(token: string): { userId: string } {
+  const secret = process.env.REFRESH_TOKEN_SECRET;
+  if (!secret) throw new Error('REFRESH_TOKEN_SECRET is not set');
+  return jwt.verify(token, secret) as { userId: string };
+}

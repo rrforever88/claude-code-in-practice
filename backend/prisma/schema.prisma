@@ -14,13 +14,24 @@ model User {
   timezone     String   @default("UTC")
   createdAt    DateTime @default(now())
 
-  symptoms      Symptom[]
-  symptomLogs   SymptomLog[]
-  moodLogs      MoodLog[]
-  medications   Medication[]
-  medicationLogs MedicationLog[]
-  habits        Habit[]
-  habitLogs     HabitLog[]
+  symptoms           Symptom[]
+  symptomLogs        SymptomLog[]
+  moodLogs           MoodLog[]
+  medications        Medication[]
+  medicationLogs     MedicationLog[]
+  habits             Habit[]
+  habitLogs          HabitLog[]
+  passwordResetTokens PasswordResetToken[]
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Symptom {
