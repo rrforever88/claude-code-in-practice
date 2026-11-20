@@ -14,58 +14,58 @@
 
 ### Auth Endpoints
 - [x] Implement `POST /api/auth/register` — validate input, hash password with bcrypt, create `User`, return access + refresh JWT pair
-- [ ] Implement `POST /api/auth/login` — verify credentials, issue JWT access token (15 min) and refresh token (7 days) stored in an httpOnly cookie or returned in body
-- [ ] Implement `POST /api/auth/refresh` — validate refresh token, issue new access token
-- [ ] Implement `POST /api/auth/logout` — invalidate refresh token
-- [ ] Implement `POST /api/auth/forgot-password` — generate a time-limited reset token and send reset email (use nodemailer or a transactional email service)
-- [ ] Implement `POST /api/auth/reset-password` — validate token, update `password_hash`
-- [ ] Write an `authenticateToken` middleware that verifies the JWT and attaches `req.user`
+- [x] Implement `POST /api/auth/login` — verify credentials, issue JWT access token (15 min) and refresh token (7 days) stored in an httpOnly cookie or returned in body
+- [x] Implement `POST /api/auth/refresh` — validate refresh token, issue new access token
+- [x] Implement `POST /api/auth/logout` — invalidate refresh token
+- [x] Implement `POST /api/auth/forgot-password` — generate a time-limited reset token and send reset email (use nodemailer or a transactional email service)
+- [x] Implement `POST /api/auth/reset-password` — validate token, update `password_hash`
+- [x] Write an `authenticateToken` middleware that verifies the JWT and attaches `req.user`
 
 ### User Endpoints
-- [ ] Implement `GET /api/users/me` — return the authenticated user's profile
-- [ ] Implement `PATCH /api/users/me` — update `display_name` and/or `timezone`; validate timezone is a valid IANA string
-- [ ] Implement `DELETE /api/users/me` — delete user and all associated data (cascade via Prisma relations)
+- [x] Implement `GET /api/users/me` — return the authenticated user's profile
+- [x] Implement `PATCH /api/users/me` — update `display_name` and/or `timezone`; validate timezone is a valid IANA string
+- [x] Implement `DELETE /api/users/me` — delete user and all associated data (cascade via Prisma relations)
 
 ### Symptoms & Symptom Logs
-- [ ] Implement `GET /api/symptoms` — return all system symptoms (`user_id = null`) plus the user's custom ones, filtered by `is_active`
-- [ ] Implement `POST /api/symptoms` — create a custom symptom for the authenticated user
-- [ ] Implement `PATCH /api/symptoms/:id` — update name, category, or `is_active`; enforce ownership (can't edit system symptoms)
-- [ ] Implement `DELETE /api/symptoms/:id` — soft-delete or hard-delete custom symptoms; prevent deleting system symptoms
-- [ ] Implement `GET /api/symptom-logs` — return logs for the authenticated user with `startDate`, `endDate`, `limit`, `offset` query params
-- [ ] Implement `POST /api/symptom-logs` — create a log entry; validate `severity` is 1–10
-- [ ] Implement `PATCH /api/symptom-logs/:id` — update severity, notes, or `logged_at`; enforce ownership
-- [ ] Implement `DELETE /api/symptom-logs/:id` — delete a log entry; enforce ownership
+- [x] Implement `GET /api/symptoms` — return all system symptoms (`user_id = null`) plus the user's custom ones, filtered by `is_active`
+- [x] Implement `POST /api/symptoms` — create a custom symptom for the authenticated user
+- [x] Implement `PATCH /api/symptoms/:id` — update name, category, or `is_active`; enforce ownership (can't edit system symptoms)
+- [x] Implement `DELETE /api/symptoms/:id` — soft-delete or hard-delete custom symptoms; prevent deleting system symptoms
+- [x] Implement `GET /api/symptom-logs` — return logs for the authenticated user with `startDate`, `endDate`, `limit`, `offset` query params
+- [x] Implement `POST /api/symptom-logs` — create a log entry; validate `severity` is 1–10
+- [x] Implement `PATCH /api/symptom-logs/:id` — update severity, notes, or `logged_at`; enforce ownership
+- [x] Implement `DELETE /api/symptom-logs/:id` — delete a log entry; enforce ownership
 
 ### Mood Logs
-- [ ] Implement `GET /api/mood-logs` — return mood logs with date range filtering
-- [ ] Implement `POST /api/mood-logs` — validate `mood_score` (1–5), `energy_level` (1–5, optional), `stress_level` (1–5, optional)
-- [ ] Implement `PATCH /api/mood-logs/:id` — update fields; enforce ownership
-- [ ] Implement `DELETE /api/mood-logs/:id` — enforce ownership
+- [x] Implement `GET /api/mood-logs` — return mood logs with date range filtering
+- [x] Implement `POST /api/mood-logs` — validate `mood_score` (1–5), `energy_level` (1–5, optional), `stress_level` (1–5, optional)
+- [x] Implement `PATCH /api/mood-logs/:id` — update fields; enforce ownership
+- [x] Implement `DELETE /api/mood-logs/:id` — enforce ownership
 
 ### Medications & Medication Logs
-- [ ] Implement `GET /api/medications` — return the user's active medications
-- [ ] Implement `POST /api/medications` — create a medication record
-- [ ] Implement `PATCH /api/medications/:id` — update name, dosage, frequency, or `is_active`
-- [ ] Implement `DELETE /api/medications/:id` — enforce ownership
-- [ ] Implement `GET /api/medication-logs` — return logs with date range filtering
-- [ ] Implement `POST /api/medication-logs` — log whether a medication was taken
-- [ ] Implement `PATCH /api/medication-logs/:id` — update `taken`, `taken_at`, or notes
-- [ ] Implement `DELETE /api/medication-logs/:id` — enforce ownership
+- [x] Implement `GET /api/medications` — return the user's active medications
+- [x] Implement `POST /api/medications` — create a medication record
+- [x] Implement `PATCH /api/medications/:id` — update name, dosage, frequency, or `is_active`
+- [x] Implement `DELETE /api/medications/:id` — enforce ownership
+- [x] Implement `GET /api/medication-logs` — return logs with date range filtering
+- [x] Implement `POST /api/medication-logs` — log whether a medication was taken
+- [x] Implement `PATCH /api/medication-logs/:id` — update `taken`, `taken_at`, or notes
+- [x] Implement `DELETE /api/medication-logs/:id` — enforce ownership
 
 ### Habits & Habit Logs
-- [ ] Implement `GET /api/habits` — return system habits plus the user's custom ones
-- [ ] Implement `POST /api/habits` — create a custom habit; validate `tracking_type` is one of `boolean | numeric | duration`
-- [ ] Implement `PATCH /api/habits/:id` — update name, unit, or `is_active`; enforce ownership for custom habits
-- [ ] Implement `DELETE /api/habits/:id` — enforce ownership
-- [ ] Implement `GET /api/habit-logs` — return logs with date range filtering
-- [ ] Implement `POST /api/habit-logs` — accept `value_boolean`, `value_numeric`, or `value_duration` depending on the habit's `tracking_type`
-- [ ] Implement `PATCH /api/habit-logs/:id` — update value and notes; enforce ownership
-- [ ] Implement `DELETE /api/habit-logs/:id` — enforce ownership
+- [x] Implement `GET /api/habits` — return system habits plus the user's custom ones
+- [x] Implement `POST /api/habits` — create a custom habit; validate `tracking_type` is one of `boolean | numeric | duration`
+- [x] Implement `PATCH /api/habits/:id` — update name, unit, or `is_active`; enforce ownership for custom habits
+- [x] Implement `DELETE /api/habits/:id` — enforce ownership
+- [x] Implement `GET /api/habit-logs` — return logs with date range filtering
+- [x] Implement `POST /api/habit-logs` — accept `value_boolean`, `value_numeric`, or `value_duration` depending on the habit's `tracking_type`
+- [x] Implement `PATCH /api/habit-logs/:id` — update value and notes; enforce ownership
+- [x] Implement `DELETE /api/habit-logs/:id` — enforce ownership
 
 ### Validation & Error Handling
-- [ ] Add Zod schemas for all request bodies; return structured `400` errors with field-level messages
-- [ ] Add a global error handler middleware that returns consistent `{ error: string }` JSON for unhandled errors
-- [ ] Return `401` for missing/invalid JWT, `403` for ownership violations, `404` for missing resources
+- [x] Add Zod schemas for all request bodies; return structured `400` errors with field-level messages
+- [x] Add a global error handler middleware that returns consistent `{ error: string }` JSON for unhandled errors
+- [x] Return `401` for missing/invalid JWT, `403` for ownership violations, `404` for missing resources
 
 ---
 

@@ -1,10 +1,10 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import prisma from '../lib/prisma';
 import { updateUserSchema } from '../schemas/users';
 
 const router = Router();
 
-router.get('/me', async (req: Request, res: Response) => {
+router.get('/me', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.user!.userId },
@@ -15,12 +15,12 @@ router.get('/me', async (req: Request, res: Response) => {
       return;
     }
     res.json(user);
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.patch('/me', async (req: Request, res: Response) => {
+router.patch('/me', async (req: Request, res: Response, next: NextFunction) => {
   const result = updateUserSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({
@@ -37,17 +37,17 @@ router.patch('/me', async (req: Request, res: Response) => {
       select: { id: true, email: true, displayName: true, timezone: true, createdAt: true },
     });
     res.json(user);
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.delete('/me', async (req: Request, res: Response) => {
+router.delete('/me', async (req: Request, res: Response, next: NextFunction) => {
   try {
     await prisma.user.delete({ where: { id: req.user!.userId } });
     res.status(204).send();
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
