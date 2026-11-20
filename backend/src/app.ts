@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import authRouter from './routes/auth';
+import usersRouter from './routes/users';
 import { errorHandler } from './middleware/errorHandler';
 
 const app = express();
@@ -13,6 +14,7 @@ app.get('/health', (_req, res) => {
 });
 
 app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
 
 app.use(errorHandler);
 
