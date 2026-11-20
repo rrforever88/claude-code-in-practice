@@ -5,6 +5,8 @@ import usersRouter from './routes/users';
 import symptomsRouter from './routes/symptoms';
 import symptomLogsRouter from './routes/symptomLogs';
 import moodLogsRouter from './routes/moodLogs';
+import medicationsRouter from './routes/medications';
+import medicationLogsRouter from './routes/medicationLogs';
 import { authenticateToken } from './middleware/authenticate';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -22,6 +24,8 @@ app.use('/api/users', authenticateToken, usersRouter);
 app.use('/api/symptoms', authenticateToken, symptomsRouter);
 app.use('/api/symptom-logs', authenticateToken, symptomLogsRouter);
 app.use('/api/mood-logs', authenticateToken, moodLogsRouter);
+app.use('/api/medications', authenticateToken, medicationsRouter);
+app.use('/api/medication-logs', authenticateToken, medicationLogsRouter);
 
 app.use(errorHandler);
 
