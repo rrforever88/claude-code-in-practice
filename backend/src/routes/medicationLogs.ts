@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import prisma from '../lib/prisma';
 import {
   createMedicationLogSchema,
@@ -8,7 +8,7 @@ import {
 
 const router = Router();
 
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   const result = logQuerySchema.safeParse(req.query);
   if (!result.success) {
     res.status(400).json({ error: 'Validation failed', details: result.error.flatten().fieldErrors });
@@ -36,12 +36,12 @@ router.get('/', async (req: Request, res: Response) => {
       include: { medication: { select: { id: true, name: true, dosage: true } } },
     });
     res.json(logs);
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', async (req: Request, res: Response, next: NextFunction) => {
   const result = createMedicationLogSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({ error: 'Validation failed', details: result.error.flatten().fieldErrors });
@@ -71,12 +71,12 @@ router.post('/', async (req: Request, res: Response) => {
       },
     });
     res.status(201).json(log);
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.patch('/:id', async (req: Request, res: Response) => {
+router.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
   const result = updateMedicationLogSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({ error: 'Validation failed', details: result.error.flatten().fieldErrors });
@@ -100,12 +100,12 @@ router.patch('/:id', async (req: Request, res: Response) => {
       data: { ...rest, ...(takenAt ? { takenAt: new Date(takenAt) } : {}) },
     });
     res.json(updated);
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const log = await prisma.medicationLog.findUnique({ where: { id: req.params.id } });
     if (!log) {
@@ -119,8 +119,8 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
     await prisma.medicationLog.delete({ where: { id: req.params.id } });
     res.status(204).send();
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 

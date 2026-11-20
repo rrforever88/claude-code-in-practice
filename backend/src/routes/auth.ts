@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import prisma from '../lib/prisma';
@@ -17,7 +17,7 @@ import {
 
 const router = Router();
 
-router.post('/register', async (req: Request, res: Response) => {
+router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
   const result = registerSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({
@@ -47,12 +47,12 @@ router.post('/register', async (req: Request, res: Response) => {
     const refreshToken = generateRefreshToken(user.id);
 
     res.status(201).json({ user, accessToken, refreshToken });
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   const result = loginSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({
@@ -82,12 +82,12 @@ router.post('/login', async (req: Request, res: Response) => {
 
     const { passwordHash: _, ...safeUser } = user;
     res.json({ user: safeUser, accessToken, refreshToken });
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.post('/refresh', async (req: Request, res: Response) => {
+router.post('/refresh', async (req: Request, res: Response, next: NextFunction) => {
   const result = refreshSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({
@@ -107,7 +107,7 @@ router.post('/refresh', async (req: Request, res: Response) => {
 
     const accessToken = generateAccessToken(user.id, user.email);
     res.json({ accessToken });
-  } catch {
+  } catch (err) {
     res.status(401).json({ error: 'Invalid or expired refresh token' });
   }
 });
@@ -118,7 +118,7 @@ router.post('/logout', (_req: Request, res: Response) => {
   res.status(204).send();
 });
 
-router.post('/forgot-password', async (req: Request, res: Response) => {
+router.post('/forgot-password', async (req: Request, res: Response, next: NextFunction) => {
   const result = forgotPasswordSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({
@@ -147,12 +147,12 @@ router.post('/forgot-password', async (req: Request, res: Response) => {
     console.log(`[DEV] Password reset token for ${user.email}: ${token}`);
 
     res.json({ message: 'If that email is registered, a reset link has been sent.' });
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
-router.post('/reset-password', async (req: Request, res: Response) => {
+router.post('/reset-password', async (req: Request, res: Response, next: NextFunction) => {
   const result = resetPasswordSchema.safeParse(req.body);
   if (!result.success) {
     res.status(400).json({
@@ -180,8 +180,8 @@ router.post('/reset-password', async (req: Request, res: Response) => {
     ]);
 
     res.json({ message: 'Password reset successful' });
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  } catch (err) {
+    next(err);
   }
 });
 
