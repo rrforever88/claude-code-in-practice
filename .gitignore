@@ -26,6 +26,10 @@ out/
 # Keep schema.prisma and migrations; ignore generated client
 backend/node_modules/.prisma/
 backend/src/generated/
+backend/.claude/
+backend/.windsurf/
+backend/.agents/
+backend/skills-lock.json
 
 # ── AI tool generated directories ─────────────────────────────
 .agents/

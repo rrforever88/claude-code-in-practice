@@ -7,10 +7,10 @@
 ### Project Setup
 - [x] Initialize Node.js/Express project with TypeScript; configure `tsconfig.json`, `eslint`, and `prettier`
 - [x] Add dependencies: `express`, `prisma`, `@prisma/client`, `bcrypt`, `jsonwebtoken`, `zod`, `dotenv`, `cors`
-- [ ] Set up PostgreSQL database (local dev) and add `DATABASE_URL` to `.env`
-- [ ] Initialize Prisma: run `prisma init`, write the full schema (`User`, `Symptom`, `SymptomLog`, `MoodLog`, `Medication`, `MedicationLog`, `Habit`, `HabitLog`), and run the initial migration
-- [ ] Add database indexes on `(user_id, logged_at)` for all log tables in the Prisma schema
-- [ ] Write a seed script that inserts the 11 default symptoms and 5 default habits (with `user_id = null`)
+- [x] Set up PostgreSQL database (local dev) and add `DATABASE_URL` to `.env`
+- [x] Initialize Prisma: run `prisma init`, write the full schema (`User`, `Symptom`, `SymptomLog`, `MoodLog`, `Medication`, `MedicationLog`, `Habit`, `HabitLog`), and run the initial migration
+- [x] Add database indexes on `(user_id, logged_at)` for all log tables in the Prisma schema
+- [x] Write a seed script that inserts the 11 default symptoms and 5 default habits (with `user_id = null`)
 
 ### Auth Endpoints
 - [ ] Implement `POST /api/auth/register` — validate input, hash password with bcrypt, create `User`, return access + refresh JWT pair
