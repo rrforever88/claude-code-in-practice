@@ -3,7 +3,8 @@ import { getSymptomLogs } from '../api/symptoms'
 import { getMoodLogs } from '../api/mood'
 import { getMedicationLogs } from '../api/medications'
 import { getHabitLogs } from '../api/habits'
-import type { SymptomLog, MoodLog, MedicationLog, HabitLog } from '../types'
+import { getUserStats } from '../api/stats'
+import type { SymptomLog, MoodLog, MedicationLog, HabitLog, StatsResponse } from '../types'
 import LogSymptomModal from '../components/LogSymptomModal'
 import LogMoodModal from '../components/LogMoodModal'
 import LogMedicationModal from '../components/LogMedicationModal'
@@ -41,6 +42,9 @@ export default function DashboardPage() {
   const [medicationLogs, setMedicationLogs] = useState<MedicationLog[]>([])
   const [habitLogs, setHabitLogs] = useState<HabitLog[]>([])
   const [weekLogs, setWeekLogs] = useState<{ loggedAt: string }[]>([])
+  const [stats, setStats] = useState<StatsResponse | null>(null)
+  const [statsLoading, setStatsLoading] = useState(true)
+  const [statsError, setStatsError] = useState(false)
 
   const today = todayRange()
   const week = weekRange()
@@ -63,6 +67,18 @@ export default function DashboardPage() {
     setMedicationLogs(medl)
     setHabitLogs(hl)
     setWeekLogs(weekAll)
+
+    setStatsLoading(true)
+    setStatsError(false)
+    getUserStats()
+      .then((data) => {
+        setStats(data)
+        setStatsLoading(false)
+      })
+      .catch(() => {
+        setStatsError(true)
+        setStatsLoading(false)
+      })
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -152,6 +168,10 @@ export default function DashboardPage() {
             <p className="text-xs text-gray-400">+{habitLogs.length - 3} more</p>
           )}
         </SectionCard>
+
+        <div className="sm:col-span-2">
+          <StatsCard stats={stats} loading={statsLoading} error={statsError} />
+        </div>
       </div>
 
       {modal === 'symptom' && <LogSymptomModal onClose={() => setModal(null)} onSaved={closeAndRefresh} />}
@@ -235,6 +255,102 @@ function LogRow({ label, detail }: { label: string; detail: string }) {
     <div className="flex items-center justify-between text-sm">
       <span className="text-gray-800 truncate">{label}</span>
       {detail && <span className="text-gray-500 text-xs ml-2 shrink-0">{detail}</span>}
+    </div>
+  )
+}
+
+function moodColor(score: number): string {
+  if (score >= 4) return 'text-green-600'
+  if (score >= 3) return 'text-yellow-600'
+  return 'text-red-500'
+}
+
+function StatsCard({
+  stats,
+  loading,
+  error,
+}: {
+  stats: StatsResponse | null
+  loading: boolean
+  error: boolean
+}) {
+  return (
+    <div className="rounded-2xl border p-5 bg-teal-50 border-teal-200">
+      <h2 className="text-base font-semibold text-gray-900 mb-4">Your Stats</h2>
+
+      {loading && (
+        <p className="text-sm text-gray-400 animate-pulse">Loading stats…</p>
+      )}
+
+      {!loading && error && (
+        <p className="text-sm text-red-500">Could not load stats. Please try again later.</p>
+      )}
+
+      {!loading && !error && stats && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <StatBlock label="Avg mood (30d)">
+            {stats.avgMoodScoreLast30Days !== null ? (
+              <span className={`text-2xl font-bold ${moodColor(stats.avgMoodScoreLast30Days)}`}>
+                {stats.avgMoodScoreLast30Days.toFixed(1)}
+                <span className="text-sm font-normal text-gray-400"> / 5</span>
+              </span>
+            ) : (
+              <span className="text-sm text-gray-400">No data yet</span>
+            )}
+          </StatBlock>
+
+          <StatBlock label="Current streak">
+            <span className="text-2xl font-bold text-teal-600">
+              {stats.currentStreak}
+              <span className="text-sm font-normal text-gray-500"> day{stats.currentStreak !== 1 ? 's' : ''}</span>
+            </span>
+          </StatBlock>
+
+          <StatBlock label="Top symptoms">
+            {stats.topSymptoms.length === 0 ? (
+              <span className="text-sm text-gray-400">None logged</span>
+            ) : (
+              <div className="space-y-1 mt-0.5">
+                {stats.topSymptoms.slice(0, 3).map((s) => (
+                  <div key={s.symptomId} className="flex items-center justify-between text-sm">
+                    <span className="text-gray-700 truncate">{s.name}</span>
+                    <span className="ml-2 shrink-0 text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full">
+                      {s.count}×
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </StatBlock>
+
+          <StatBlock label="All-time logs">
+            <div className="space-y-1 mt-0.5">
+              {(
+                [
+                  ['Symptoms', stats.totalLogsByType.symptomLogs, 'text-orange-600'],
+                  ['Moods', stats.totalLogsByType.moodLogs, 'text-violet-600'],
+                  ['Medications', stats.totalLogsByType.medicationLogs, 'text-blue-600'],
+                  ['Habits', stats.totalLogsByType.habitLogs, 'text-green-600'],
+                ] as [string, number, string][]
+              ).map(([label, count, cls]) => (
+                <div key={label} className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">{label}</span>
+                  <span className={`font-semibold ${cls}`}>{count}</span>
+                </div>
+              ))}
+            </div>
+          </StatBlock>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function StatBlock({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</p>
+      {children}
     </div>
   )
 }

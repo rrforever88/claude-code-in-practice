@@ -65,3 +65,19 @@ Tests use supertest against the Express app directly — no running server neede
 ## API Reference
 
 See [docs/api.md](docs/api.md).
+
+## Test Accounts
+
+These accounts are created by `backend/prisma/seed-testuser.ts` and contain 30 days of realistic data across all log types (mood, symptoms, medications, habits).
+
+| Account | Email | Password |
+|---|---|---|
+| Demo user (system seed) | `demo@welltrack.dev` | `demo1234` |
+| Test user (rich data) | `alex@welltrack.dev` | `WellTrack42!` |
+
+To recreate the test user (destructive — deletes and re-seeds):
+
+```bash
+cd backend
+node_modules/.bin/ts-node --transpile-only prisma/seed-testuser.ts
+```
