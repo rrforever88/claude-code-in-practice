@@ -27,6 +27,16 @@ out/
 backend/node_modules/.prisma/
 backend/src/generated/
 
+# ── AI tool generated directories ─────────────────────────────
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+backend/.agents/
+backend/.claude/
+backend/.windsurf/
+backend/skills-lock.json
+
 # ── Logs ──────────────────────────────────────────────────────
 *.log
 npm-debug.log*
