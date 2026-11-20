@@ -72,32 +72,32 @@
 ## Phase 2: Frontend Foundation (Weeks 4–6)
 
 ### Project Setup
-- [ ] Bootstrap React app with Vite + TypeScript; install and configure Tailwind CSS
-- [ ] Install dependencies: `react-router-dom`, `axios` (or `fetch` wrapper), `react-hook-form`, `zod`, `@hookform/resolvers`
-- [ ] Set up folder structure: `pages/`, `components/`, `hooks/`, `api/`, `types/`
-- [ ] Create an Axios instance (or fetch wrapper) that attaches the JWT from local storage and handles 401 → redirect to login
-- [ ] Define TypeScript types mirroring the backend data models
+- [x] Bootstrap React app with Vite + TypeScript; install and configure Tailwind CSS
+- [x] Install dependencies: `react-router-dom`, `axios` (or `fetch` wrapper), `react-hook-form`, `zod`, `@hookform/resolvers`
+- [x] Set up folder structure: `pages/`, `components/`, `hooks/`, `api/`, `types/`
+- [x] Create an Axios instance (or fetch wrapper) that attaches the JWT from local storage and handles 401 → redirect to login
+- [x] Define TypeScript types mirroring the backend data models
 
 ### Auth Pages
-- [ ] Build `/register` page — email, password, display name fields; call `POST /api/auth/register`; redirect to dashboard on success
-- [ ] Build `/login` page — email + password; call `POST /api/auth/login`; store token; redirect to dashboard
-- [ ] Build `/forgot-password` page — email input; call `POST /api/auth/forgot-password`; show confirmation message
-- [ ] Build `/reset-password` page — read token from URL query param; new password form; call `POST /api/auth/reset-password`
-- [ ] Create a `ProtectedRoute` component that redirects unauthenticated users to `/login`
-- [ ] Set up `react-router-dom` with routes: `/`, `/login`, `/register`, `/forgot-password`, `/reset-password`, `/history`, `/trends`, `/settings`
+- [x] Build `/register` page — email, password, display name fields; call `POST /api/auth/register`; redirect to dashboard on success
+- [x] Build `/login` page — email + password; call `POST /api/auth/login`; store token; redirect to dashboard
+- [x] Build `/forgot-password` page — email input; call `POST /api/auth/forgot-password`; show confirmation message
+- [x] Build `/reset-password` page — read token from URL query param; new password form; call `POST /api/auth/reset-password`
+- [x] Create a `ProtectedRoute` component that redirects unauthenticated users to `/login`
+- [x] Set up `react-router-dom` with routes: `/`, `/login`, `/register`, `/forgot-password`, `/reset-password`, `/history`, `/trends`, `/settings`
 
 ### Dashboard (Home Screen)
-- [ ] Build the dashboard layout: today's date header, four section cards (Symptoms, Mood, Medications, Habits)
-- [ ] Fetch and display a summary of today's logs in each section card
-- [ ] Add a "days logged this week" or streak indicator
-- [ ] Add quick-add buttons per section that open the appropriate log modal
+- [x] Build the dashboard layout: today's date header, four section cards (Symptoms, Mood, Medications, Habits)
+- [x] Fetch and display a summary of today's logs in each section card
+- [x] Add a "days logged this week" or streak indicator
+- [x] Add quick-add buttons per section that open the appropriate log modal
 
 ### Logging Modals
-- [ ] Build a `LogSymptomModal` — symptom picker (dropdown from `GET /api/symptoms`), severity slider (1–10), optional notes, date picker defaulting to now
-- [ ] Build a `LogMoodModal` — mood score (1–5 button group), optional energy and stress sliders, optional notes, date picker
-- [ ] Build a `LogMedicationModal` — medication picker, taken/not taken toggle, optional `taken_at` time, notes, date picker
-- [ ] Build a `LogHabitModal` — habit picker, input type driven by `tracking_type` (checkbox, number input, or duration input), notes, date picker
-- [ ] Add optimistic UI updates or refetch after save so the dashboard reflects new entries without a full page reload
+- [x] Build a `LogSymptomModal` — symptom picker (dropdown from `GET /api/symptoms`), severity slider (1–10), optional notes, date picker defaulting to now
+- [x] Build a `LogMoodModal` — mood score (1–5 button group), optional energy and stress sliders, optional notes, date picker
+- [x] Build a `LogMedicationModal` — medication picker, taken/not taken toggle, optional `taken_at` time, notes, date picker
+- [x] Build a `LogHabitModal` — habit picker, input type driven by `tracking_type` (checkbox, number input, or duration input), notes, date picker
+- [x] Add optimistic UI updates or refetch after save so the dashboard reflects new entries without a full page reload
 
 ---
 
