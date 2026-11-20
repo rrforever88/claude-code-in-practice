@@ -7,6 +7,8 @@ import symptomLogsRouter from './routes/symptomLogs';
 import moodLogsRouter from './routes/moodLogs';
 import medicationsRouter from './routes/medications';
 import medicationLogsRouter from './routes/medicationLogs';
+import habitsRouter from './routes/habits';
+import habitLogsRouter from './routes/habitLogs';
 import { authenticateToken } from './middleware/authenticate';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -26,6 +28,8 @@ app.use('/api/symptom-logs', authenticateToken, symptomLogsRouter);
 app.use('/api/mood-logs', authenticateToken, moodLogsRouter);
 app.use('/api/medications', authenticateToken, medicationsRouter);
 app.use('/api/medication-logs', authenticateToken, medicationLogsRouter);
+app.use('/api/habits', authenticateToken, habitsRouter);
+app.use('/api/habit-logs', authenticateToken, habitLogsRouter);
 
 app.use(errorHandler);
 
