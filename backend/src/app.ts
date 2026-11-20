@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import authRouter from './routes/auth';
 import usersRouter from './routes/users';
+import symptomsRouter from './routes/symptoms';
+import symptomLogsRouter from './routes/symptomLogs';
 import { authenticateToken } from './middleware/authenticate';
 import { errorHandler } from './middleware/errorHandler';
 
@@ -16,6 +18,8 @@ app.get('/health', (_req, res) => {
 
 app.use('/api/auth', authRouter);
 app.use('/api/users', authenticateToken, usersRouter);
+app.use('/api/symptoms', authenticateToken, symptomsRouter);
+app.use('/api/symptom-logs', authenticateToken, symptomLogsRouter);
 
 app.use(errorHandler);
 
